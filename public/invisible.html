@@ -1,0 +1,319 @@
+<html>
+
+<head>
+  <meta http-equiv="Content-Type" content="text/html;charset=utf-8">
+  <title>State of Guts</title>
+
+  <link href="libs/fonts/fonts.css" rel="stylesheet">
+  <script src="libs/libINScore.js"></script>
+  <script src="libs/libGUIDOEngine.js"></script>
+  <script src="libs/libfaust-wasm.js"></script>
+  <script src="libs/FaustLibrary.js"></script>
+  <script src="libs/inscoreview.js"></script>
+  <script src="libs/inscoreglue.js"></script>
+  <script src="libs/libmusicxml.js"></script>
+  <script src="libs/receive.js"></script>
+  <script src="delay.js"></script>
+  <script src="receiveS.js"></script>
+  <script src="receiveInscore.js"></script>
+  <link href="missa.css" rel="stylesheet">
+
+  <style>
+    body {
+      margin: 20;
+      background-color: black;
+      color: white
+    }
+
+    .inscore {
+      background-color: white;
+      border-color: grey;
+      width: 100%;
+      height: 100%;
+      font-size: 1px;
+    }
+  </style>
+</head>
+
+
+
+
+
+
+
+<body>
+	<button id="lock" type="button" onclick="vid.play();vid.pause();this.remove();">please click</button>
+
+	<center>
+		<video id="vid" height="80%" width="100%" src="lib/vids/s/duf.mp4" controls playsinline></video>
+	</center>
+
+	
+</body>
+<span id='delayStr'>0</span>
+<input type="range" id='delay' class='delay'  min="0" max="1000" value="0" onchange=save(this.value)>
+
+
+
+
+
+
+<script>
+	document.getElementById ('delay').value = delay;
+	document.getElementById('delayStr').innerText = "delay value : "+delay+"ms";
+</script>
+
+
+
+  <div class="inscore" id="scene">
+    <pre>
+
+/ITL/scene/cursor set rect 0.03 0.6;
+/ITL/scene/cursor color 255 0 0;
+/ITL/scene color 0 0 0;
+
+
+
+	click = (/ITL/scene/cursor date '$date', /ITL/log write "hello");
+
+
+
+
+
+
+
+
+
+/ITL/scene watch CUT (
+	/ITL/scene/shift disconnect audioOutput,
+	/ITL/scene/echo disconnect audioOutput,
+	/ITL/scene/vocoder disconnect audioOutput,
+	/ITL/scene/reverb disconnect audioOutput,
+	/ITL/scene/radio disconnect audioOutput
+);
+
+/ITL/scene watch VOCODER (
+	/ITL/scene/audioInput connect vocoder,
+    /ITL/scene/vocoder connect audioOutput,
+	/ITL/scene/vocoder/My_Vocoder/Excitation/Freq '$1',
+	/ITL/scene/vocoder/My_Vocoder/Excitation/Gain '$2',
+	/ITL/scene/vocoder/My_Vocoder/Vocoder/Attack '$3',
+	/ITL/scene/vocoder/My_Vocoder/Vocoder/BW '$4',
+	/ITL/scene/vocoder/My_Vocoder/Vocoder/Release '$5'
+);
+
+/ITL/scene watch ECHO (
+/ITL/scene/audioInput connect echo,
+/ITL/scene/echo connect audioOutput,
+/ITL/scene/echo/echo__1000/feedback '$1',
+/ITL/scene/echo/echo__1000/millisecond '$2'
+);
+
+
+#==================================================
+# SHIFT 1/ shifting -24 24 2/ window 50 10000 3/ xfade 1 10000 
+#================================================== 
+
+
+/ITL/scene watch SHIFT (
+	/ITL/scene/audioInput connect shift,
+    /ITL/scene/shift connect audioOutput,
+	/ITL/scene/shift/Pitch_Shifter/shifting '$1',
+	/ITL/scene/shift/Pitch_Shifter/window '$2',
+	/ITL/scene/shift/Pitch_Shifter/xfade '$3'
+);
+
+
+#==================================================
+# REVERB 1/ damps 0. 1. 2/ roomsize 0. 1. 3/ wet 0. 1.
+#================================================== 
+
+
+/ITL/scene watch REVERB (
+/ITL/scene/audioInput connect reverb,
+/ITL/scene/reverb connect audioOutput,
+/ITL/scene/reverb/Freeverb/0x00/Damp '$1',
+/ITL/scene/reverb/Freeverb/0x00/RoomSize '$2',
+/ITL/scene/reverb/Freeverb/Wet '$3'
+);
+
+#==================================================
+# SHIFTREVERB 1/ shifting -24 24 2/ window 50 10000 3/ xfade 1 10000 4/ damps 0. 1. 5/ roomsize 0. 1. 6/ wet 0. 1.
+#================================================== 
+
+
+/ITL/scene watch SHIFTREVERB (
+/ITL/scene/audioInput connect shift,
+/ITL/scene/shift connect reverb,
+/ITL/scene/reverb connect audioOutput,
+/ITL/scene/shift/Pitch_Shifter/shifting '$1',
+/ITL/scene/shift/Pitch_Shifter/window 10000,
+/ITL/scene/shift/Pitch_Shifter/xfade 10000,
+/ITL/scene/reverb/Freeverb/0x00/Damp 0.9,
+/ITL/scene/reverb/Freeverb/0x00/RoomSize 0.9,
+/ITL/scene/reverb/Freeverb/0x00/Stereo_Spread 0.9,
+/ITL/scene/reverb/Freeverb/Wet '$2'
+);
+
+/ITL/scene watch RADIO (
+/ITL/scene/audioInput connect radio,
+/ITL/scene/radio connect audioOutput,
+/ITL/scene/radio/FaustDSP/Q  '$1',
+/ITL/scene/radio/FaustDSP/freq  '$2'
+);
+
+
+
+
+#==================================================
+# RADIOECHO 1/ Q 20s good     2/ freq 0 - 0.5  -  1      3/ milliseconds     4/ feedback 0 100
+#==================================================
+
+/ITL/scene watch RADIOECHO (
+/ITL/scene/audioInput connect echo,
+/ITL/scene/echo connect radio,
+/ITL/scene/radio connect audioOutput,
+/ITL/scene/radio/FaustDSP/Q  '$1',
+/ITL/scene/radio/FaustDSP/freq  '$2',
+/ITL/scene/echo/echo__1000/millisecond '$3',
+/ITL/scene/echo/echo__1000/feedback '$4'
+);
+
+
+#================================================================================================
+# score effects
+#================================================================================================
+
+/ITL/scene/cursor watch timeEnter 0 1 (
+/ITL/scene event CUT 
+);
+
+/ITL/scene/cursor watch timeEnter 1.010412 2.747 (
+   /ITL/scene event REVERB 0.96 0.82 0.3
+);
+
+/ITL/scene/cursor watch timeEnter 2.747 4.73 (
+/ITL/scene event CUT 
+);
+
+/ITL/scene/cursor watch timeEnter 4.73 6.467 (
+   /ITL/scene event RADIO 25 0.83
+);
+
+/ITL/scene/cursor watch timeEnter 6.467 8.548 (
+/ITL/scene event CUT 
+);
+
+/ITL/scene/cursor watch timeEnter 8.548 10.285 (
+   /ITL/scene event ECHO 24 714
+);
+
+/ITL/scene/cursor watch timeEnter 10.285 14.612 (
+/ITL/scene event CUT 
+);
+
+/ITL/scene/cursor watch timeEnter 14.612 16.349 (
+   /ITL/scene event SHIFT -15 8537 6572
+);
+
+/ITL/scene/cursor watch timeEnter 16.349 18.43 (
+/ITL/scene event CUT 
+);
+
+/ITL/scene/cursor watch timeEnter 26.542 28.622 (
+/ITL/scene event CUT 
+);
+
+/ITL/scene/cursor watch timeEnter 30.359 32.44 (
+/ITL/scene event CUT 
+);
+
+/ITL/scene/cursor watch timeEnter 28.622 30.359 (
+   /ITL/scene event RADIO 9 0.08
+);
+
+
+
+
+
+
+
+
+
+
+
+# UI UI UI UI UI UI UI user interface settings
+
+
+
+/ITL/scene/cursor tempo 0;
+/ITL/scene/cursor date 0;
+
+/ITL/scene/timeline set rect 2.6 0.16;
+/ITL/scene/timeline color 30 30 30;
+/ITL/scene/timeline y -0.93;
+/ITL/scene/timeline duration 72 1;
+
+/ITL/scene/timeline watch mouseDown ( /ITL/scene/cursor date '$date');
+/ITL/scene/timeline watch mouseMove ( /ITL/scene/cursor date '$date');
+
+/ITL/scene/sync cursor timeline v;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+#==================================================
+# faust part
+#================================================== 
+
+/ITL/scene/echo set faustw 'wasm/echo.wasm' 'wasm/echo.json';
+/ITL/scene/echo/echo__1000/feedback 80;
+/ITL/scene/echo/echo__1000/millisecond 80;
+/ITL/scene/echo show 0;
+
+
+/ITL/scene/shift set faustw 'wasm/shift.wasm' 'wasm/shift.json';
+/ITL/scene/shift show 0;
+
+/ITL/scene/vocoder set faustw 'wasm/vocoder.wasm' 'wasm/vocoder.json';
+/ITL/scene/vocoder show 0;
+/ITL/scene/vocoder/My_Vocoder/Excitation/Freq 50;
+/ITL/scene/vocoder/My_Vocoder/Excitation/Gain 1;
+/ITL/scene/vocoder/My_Vocoder/Vocoder/Attack 0.1;
+/ITL/scene/vocoder/My_Vocoder/Vocoder/BW 0.13;
+/ITL/scene/vocoder/My_Vocoder/Vocoder/Release 0.1;
+
+/ITL/scene/reverb set faustw 'wasm/reverb.wasm' 'wasm/reverb.json';
+/ITL/scene/reverb show 0;
+
+/ITL/scene/eq set faustw  'wasm/eq.wasm' 'wasm/eq.json';
+/ITL/scene/eq show 0;
+
+/ITL/scene/radio set faustw 'wasm/radio.wasm' 'wasm/radio.json';
+/ITL/scene/radio show 0;
+
+#==================================================
+# for broWsing
+click = (/ITL/scene/cursor date '$date');
+
+
+
+
+
+</pre>
+
+  </div>
+</body>
+
+</html>
