@@ -31,6 +31,11 @@ ws.onmessage = function(msg) {
           console.log(second);
         vid.currentTime = second*4;
         zozo = second*4;
+
+        // var msg = inscore.newMessageM("date");
+        // inscore.msgAddF(msg, second);
+        // inscore.postMessage("/ITL/scene/cursor", msg);
+
         break;
 
       case "dummy":
