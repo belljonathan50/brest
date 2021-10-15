@@ -22,6 +22,19 @@
 		">	
 	<output>1</output>
 
+	<button id="cur" type="button" onclick="
+	var msg = inscore.newMessageM('set');
+	inscore.msgAddStr(msg, 'img');
+	inscore.msgAddStr(msg, ' lib/time.png');
+	inscore.postMessage('/ITL/scene/tl',msg);
+	ws.send('tune duf2');
+	var msg2 = inscore.newMessageM('duration');
+	inscore.msgAddI(msg2, 42);
+	inscore.msgAddI(msg2, 4);
+	inscore.postMessage('/ITL/scene/tl',msg2);
+	   ">dufay mesuré</button>
+	
+<!-- 
 <button id="but" type="button" onclick="
 var msg = inscore.newMessageM('set');
 inscore.msgAddStr(msg, 'img');
@@ -32,7 +45,7 @@ var msg2 = inscore.newMessageM('duration');
 inscore.msgAddI(msg2, 77);
 inscore.msgAddI(msg2, 4);
 inscore.postMessage('/ITL/scene/tl',msg2);
-      ">dufay</button>
+      ">dufay</button> -->
 
    <button id="delbut" type="button" onclick="
 var msg = inscore.newMessageM('set');
@@ -47,17 +60,6 @@ inscore.postMessage('/ITL/scene/tl',msg2);
 ws.send('tune collier');
    ">collier</button>
 
-   <button id="cur" type="button" onclick="
-var msg = inscore.newMessageM('set');
-inscore.msgAddStr(msg, 'img');
-inscore.msgAddStr(msg, ' lib/tallis.png');
-inscore.postMessage('/ITL/scene/tl',msg);
-ws.send('tune tallis');
-var msg2 = inscore.newMessageM('duration');
-inscore.msgAddI(msg2, 128);
-inscore.msgAddI(msg2, 4);
-inscore.postMessage('/ITL/scene/tl',msg2);
-   ">tallis</button>
 
 
 
