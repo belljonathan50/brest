@@ -129,7 +129,6 @@ inscore.postMessage('/ITL/scene/tl',msg2);
 	/ITL/scene/playPanel/* watch mouseEnter (/ITL/scene/playPanel/$self alpha 256);
 	/ITL/scene/playPanel/* watch mouseLeave (/ITL/scene/playPanel/$self alpha $alpha);
 	/ITL/scene/playPanel/stop watch mouseDown ( /ITL/scene/playPanel event STOP );
-	/ITL/scene/playPanel/pause watch mouseDown ( /ITL/scene/playPanel event PAUSE );
 	
 	/ITL/scene/playPanel/play watch mouseDown (
 		/ITL/scene/playPanel/play push,
@@ -147,7 +146,7 @@ inscore.postMessage('/ITL/scene/tl',msg2);
 		/ITL/scene/playPanel/pause set img $play,
 		/ITL/scene event PAUSE,
 		/ITL/scene/playPanel/pause watch mouseDown (
-			/ITL/scene/playPanel/pause set img $play,
+			/ITL/scene/playPanel/pause set img $pause,
 			/ITL/scene event PLAY,
 			/ITL/scene/playPanel/pause pop
 		)
