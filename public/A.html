@@ -13,6 +13,11 @@
 	<link href="missa.css" rel="stylesheet">
 </head>
 
+<script>
+	document.getElementById ('delay').value = delay;
+	document.getElementById('delayStr').innerText = "delay value : "+delay+"ms";
+</script>
+
 <body>
 	<button id="lock" type="button" onclick="vid.play();vid.pause();this.remove();">please click</button>
 
@@ -24,11 +29,11 @@
 </body>
 <span id='delayStr'>0</span>
 <input type="range" id='delay' class='delay'  min="0" max="1000" value="0" onchange=save(this.value)>
+
+
+
 </body>
-<script>
-	document.getElementById ('delay').value = delay;
-	document.getElementById('delayStr').innerText = "delay value : "+delay+"ms";
-</script>
+
 
 
 </html>
