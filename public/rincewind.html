@@ -1,0 +1,41 @@
+<html>
+<head>
+	<meta http-equiv="Content-Type" content="text/html;charset=utf-8" >
+	<title>rincewind</title>
+
+	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+	<link href="fonts/fonts.css" rel="stylesheet">
+	<script src="lib/libINScore.js"></script>
+	<script src="lib/inscoreview.js"></script>
+	<script src="lib/inscoreglue.js"></script>
+	<script src="delay.js"></script>
+	<script src="receive.js"></script>
+	<link href="missa.css" rel="stylesheet">
+</head>
+
+
+<body>
+	<button id="lock" type="button" onclick="vid.play();vid.pause();this.remove();">please click</button>
+
+	<center>
+		<video id="vid" height="80%" width="100%" src="lib/vids/disc/rincewind.mp4" controls playsinline></video>
+	</center>
+
+	
+</body>
+<span id='delayStr'>0</span>
+<input type="range" id='delay' class='delay'  min="0" max="1000" value="0" onchange=save(this.value)>
+
+
+<script>
+	document.getElementById ('delay').value = delay;
+	document.getElementById('delayStr').innerText = "delay value : "+delay+"ms";
+	var thispath = "a";
+</script>
+
+
+</body>
+
+
+
+</html>
