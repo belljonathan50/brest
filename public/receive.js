@@ -28,7 +28,7 @@ ws.onmessage = function(msg) {
         break;
 
       case "vdate":
-          console.log(second);
+          console.log("qsdqsdfqhsgdfhqgsdfhqgfshgdqfhsgdfqhsgfdhqgsfdhqgsfdhgqsfhdgqfshgdfqhgsd"+second);
         vid.currentTime = second*4;
         zozo = second*4;
         break;
