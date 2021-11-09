@@ -22,6 +22,41 @@
 		">	
 	<output>1</output>
 
+
+	<button type="button"  onclick="
+var msg2 = inscore.newMessageM('date');
+inscore.msgAddI(msg2, 1120);
+inscore.msgAddI(msg2, 4);
+inscore.postMessage('/ITL/scene/pos',msg2);
+send('vdate 280') 
+store('280');
+this.nextElementSibling.value =  ' tempo : '+this.value;
+">anything I can do for you Mrs?</button>
+
+	<button type="button"  onclick="
+	var msg2 = inscore.newMessageM('date');
+	inscore.msgAddI(msg2, 1413);
+	inscore.msgAddI(msg2, 4);
+	inscore.postMessage('/ITL/scene/pos',msg2);
+	send('vdate 353.25') 
+	store('353.25');
+	this.nextElementSibling.value =  ' tempo : '+this.value;
+	">enjoying your stay?</button>
+
+
+<button type="button"  onclick="
+var msg2 = inscore.newMessageM('date');
+inscore.msgAddI(msg2, 3873);
+inscore.msgAddI(msg2, 4);
+inscore.postMessage('/ITL/scene/pos',msg2);
+send('vdate 968') 
+store('968');
+this.nextElementSibling.value =  ' tempo : '+this.value;
+">eureka</button>
+
+
+
+
 	<!-- <button id="cur" type="button" onclick="
 	var msg = inscore.newMessageM('set');
 	inscore.msgAddStr(msg, 'img');
