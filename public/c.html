@@ -1,0 +1,158 @@
+<html>
+
+<head>
+  <meta http-equiv="Content-Type" content="text/html;charset=utf-8">
+  <title>jsonC = C</title>
+
+  <link href="libs/fonts/fonts.css" rel="stylesheet">
+  <script src="/timesync/timesync.js"></script> 
+  <!-- <script src="libs/jsonC.js"></script> -->
+
+  <style>
+    body {
+      margin: 20;
+      background-color: black;
+      color: white
+    }
+    .inscore {
+      background-color: white;
+      border-color: grey;
+      width: 100%;
+      height: 100%;
+      font-size: 1px;
+    }
+p {color: grey;}
+h1 {color: white}
+#container {text-align:center; }
+  </style>
+</head>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<script>
+
+window.lag = 500;
+
+// socket to send stuff
+var HOST = location.origin.replace(/^http/, 'ws');
+  var ws = new WebSocket(HOST);
+
+   // create a timesync instance
+   var ts = timesync.create({
+     server: '/timesync',
+     interval: 10000
+   });
+  
+   // get notified on changes in the offset
+   
+   ts.on('change', function (offset) {
+    //  console.log('changed offset: ' + offset + ' ms<br>');
+   });
+  
+   // get synchronized time
+
+   setInterval(function () {
+     var now = new Date(ts.now());
+    //  console.log('now: ' + now.toISOString() + ' ms<br>');
+   }, 10000);
+
+   var myVar = setInterval(function () {
+     var now = new Date(ts.now());
+     var mess = ('hit now: '+ now.getTime() +'; later: ' + ( now.getTime() + lag)  );
+     console.log(mess);
+     var dum = "dummy";
+     ws.send(mess);
+     console.log('sent dummy c est ici');
+   }, 100);
+ </script> 
+
+
+
+
+
+
+
+
+
+<body style="background-color:black;">
+
+   
+
+<div>
+
+<button id="butstop" type="button">Stop</button>
+<button id="butstart" type="button">Play</button>
+<button id="butpause" type="button">Pause</button>
+<button id="butkill" type="button">kill</button>
+<button id="butrepeat" type="button">repeat</button>
+
+
+<form>
+  <label for="vol">playback-speed</label>
+  <input type="range" id="vol" name="sik" value="1" min="0.5" max="4" step="0.1" style="color:rgb(0, 251, 21); width:1200px;" 
+  oninput=
+  "
+  var rate = 'rate '+ this.value;
+  console.log(rate);
+  this.nextElementSibling.value =  ' Rate =  ' + this.value  ;
+ ws.send('rate '+value);
+  ">
+  <output> Rate = 1</output>
+</form>
+
+<form>
+ <label for="voli">lag</label>
+ <input type="range" id="voli" name="sik" value="500" min="0" max="2000" step="1" style="color:rgb(0, 251, 21); width:1200px;" 
+ oninput=
+ "
+ var text = 'lag ' + this.value;
+ console.log(text + 'ms');
+ window.lag =parseInt(this.value);
+ ws.send(text);
+ this.nextElementSibling.value =  ' delayed of :  ' + this.value + 'ms' ;
+ ">
+ <output> delayed of : 500ms</output>
+</form>
+
+
+  
+
+
+</div>
+ 
+
+
+
+<button id="dufay" type="button" onclick="
+ var text = 'tune duf';
+ ws.send(text);
+">dufay</button>
+
+
+        
+
+
+
+
+
+
+</body>
+
+
+<!-- 
+
+<script src="libs/sender.js"></script> -->
+
+</html>
