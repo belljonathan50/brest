@@ -30,7 +30,6 @@ function lastTime() {
     inscore.msgAddF(msg, lastDate);
     inscore.postMessage("/ITL/scene/pos", msg);
     console.log("tyuytuytuyt")
-    
 }
 
 function store (any) {
