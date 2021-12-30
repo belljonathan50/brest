@@ -1,0 +1,331 @@
+<html>
+<head>
+	<meta http-equiv="Content-Type" content="text/html;charset=utf-8" >
+	<title>State of Guts</title>
+
+	<link href="libs/fonts/fonts.css" rel="stylesheet">
+	<script src="libs/libINScore.js"></script>
+	<script src="libs/INScoreJS.js"></script>
+	<style>
+	body { margin: 20; background-color: black; color: white}
+	.inscore { background-color: white; border-color: grey; width: 100%; height: 100%; font-size: 1px; }
+	</style>
+</head>
+
+<body>
+
+<div class="inscore" id="scene">
+
+/ITL/scene/cursor set rect 0.03 0.6;
+/ITL/scene/cursor color 255 0 0;
+/ITL/scene color 0 0 0;
+
+sc0start 	= -0.025;
+sc0end 		= 4.5;
+sc1start 	= 4.5;
+sc1end 		= 6;
+sc2start	= 6;
+sc2end		= 7.75;
+sc3start	= 7.75;
+sc3end		= 18;
+sc4start 	= 18;
+sc4end		= 23;
+sc5start 	= 23;
+sc5end		= 33;
+sc6start	= 32;
+sc6end		= 46;
+sc7start 	= 46;
+sc7end 		= 55;
+sc8start 	= 55;
+sc8end 		= 60;
+sc9start	= 60;
+sc9end		= 64;
+sc10start	= 64;
+sc10end		= 71;
+
+sc99start	= 747;
+sc99end		= 761;
+sc100start	= 761;
+sc100end	= 778;
+
+
+sc0duree = $sc0end - $sc0start;
+sc1duree = $sc1end - $sc1start;
+sc2duree = $sc2end - $sc2start;
+sc3duree = $sc3end - $sc3start;
+sc4duree = $sc4end - $sc4start;
+sc5duree = $sc5end - $sc5start;
+sc6duree = $sc6end - $sc6start;
+sc7duree = $sc7end - $sc7start;
+sc8duree = $sc8end - $sc8start;
+sc9duree = $sc9end - $sc9start;
+sc10duree = $sc10end - $sc10start;
+
+sc100duree = $sc100end - $sc100start;
+
+
+/ITL/scene/audio set audio 'src/fl3.mp3';
+/ITL/scene/audio show 0;
+
+
+	
+/ITL/scene/sc0 set img "imgs/n00.png";
+/ITL/scene/sc1 set img "imgs/n01.png";
+/ITL/scene/sc2 set img "imgs/n02.png";
+/ITL/scene/sc3 set img "imgs/n03.png";
+/ITL/scene/sc4 set img "imgs/n04.png";
+/ITL/scene/sc5 set img "imgs/n05.png";
+/ITL/scene/sc6 set img "imgs/n06.png";
+/ITL/scene/sc7 set img "imgs/n07.png";
+/ITL/scene/sc8 set img "imgs/n08.png";
+/ITL/scene/sc9 set img "imgs/n09.png";
+/ITL/scene/sc10 set img "imgs/n10.png";
+
+/ITL/scene/sc100 set img "imgs/n100.png";
+
+
+
+/ITL/scene watch START (
+	/ITL/scene/sync cursor sc* v relative
+);
+
+/ITL/scene watch STOP (
+	/ITL/scene/cursor tempo 0
+);
+
+
+/ITL/scene/sc100 watch show (
+	/ITL/scene/sc100 watch show,
+	/ITL/scene event START
+);
+
+
+/ITL/scene/sc* show 0;
+/ITL/scene/sc[01] show 1;
+
+/ITL/scene/end set txt "The End";
+/ITL/scene/end fontSize 36;
+/ITL/scene/end color 255 255 255;
+/ITL/scene/end show 0;
+
+top = yorigin 1.1;
+bottom = yorigin -1.1;
+/ITL/scene/sc* width 2;
+/ITL/scene/sc0 $top;
+/ITL/scene/sc1 $bottom;
+
+/ITL/scene/sc0 date 	$sc0start;
+/ITL/scene/sc0 duration $sc0duree;
+/ITL/scene/sc1 date 	$sc1start;
+/ITL/scene/sc1 duration $sc1duree;
+/ITL/scene/sc2 date 	$sc2start;
+/ITL/scene/sc2 duration $sc2duree;
+/ITL/scene/sc3 date 	$sc3start;
+/ITL/scene/sc3 duration $sc3duree;
+/ITL/scene/sc4 date 	$sc4start;
+/ITL/scene/sc4 duration $sc4duree;
+/ITL/scene/sc5 date 	$sc5start;
+/ITL/scene/sc5 duration $sc5duree;
+/ITL/scene/sc6 date 	$sc6start;
+/ITL/scene/sc6 duration $sc6duree;
+/ITL/scene/sc7 date 	$sc7start;
+/ITL/scene/sc7 duration $sc7duree;
+/ITL/scene/sc8 date 	$sc8start;
+/ITL/scene/sc8 duration $sc8duree;
+/ITL/scene/sc9 date 	$sc9start;
+/ITL/scene/sc9 duration $sc9duree;
+/ITL/scene/sc10 date 	$sc10start;
+/ITL/scene/sc10 duration $sc10duree;
+/ITL/scene/sc100 duration 	$sc100duree;
+
+
+/ITL/scene/cursor watch timeEnter $sc0start $sc0end (
+	/ITL/scene/sc* show 0,
+	/ITL/scene/sc[01] show 1,
+	/ITL/scene/sc0 $top,
+	/ITL/scene/sc1 $bottom
+);
+
+/ITL/scene/cursor watch timeEnter $sc1start $sc1end (
+	/ITL/scene/sc* show 0,
+	/ITL/scene/sc[12] show 1,
+	/ITL/scene/sc1 $bottom,
+	/ITL/scene/sc2 $top
+);
+
+/ITL/scene/cursor watch timeEnter $sc2start $sc2end (
+	/ITL/scene/sc* show 0,
+	/ITL/scene/sc[23] show 1,
+	/ITL/scene/sc2 $top,
+	/ITL/scene/sc3 $bottom
+);
+
+/ITL/scene/cursor watch timeEnter $sc3start $sc3end (
+	/ITL/scene/sc* show 0,
+	/ITL/scene/sc[34] show 1,
+	/ITL/scene/sc3 $bottom,
+	/ITL/scene/sc4 $top
+);
+
+/ITL/scene/cursor watch timeEnter $sc4start $sc4end (
+	/ITL/scene/sc* show 0,
+	/ITL/scene/sc[45] show 1,
+	/ITL/scene/sc4 $top,
+	/ITL/scene/sc5 $bottom
+);
+
+/ITL/scene/cursor watch timeEnter $sc5start $sc5end (
+	/ITL/scene/sc* show 0,
+	/ITL/scene/sc[56] show 1,
+	/ITL/scene/sc5 $bottom,
+	/ITL/scene/sc6 $top
+);
+
+/ITL/scene/cursor watch timeEnter $sc6start $sc6end (
+	/ITL/scene/sc* show 0,
+	/ITL/scene/sc6 show 1,
+	/ITL/scene/sc7 show 1,
+	/ITL/scene/sc6 $top,
+	/ITL/scene/sc7 $bottom
+);
+
+/ITL/scene/cursor watch timeEnter $sc7start $sc7end (
+	/ITL/scene/sc* show 0,
+	/ITL/scene/sc7 show 1,
+	/ITL/scene/sc8 show 1,
+	/ITL/scene/sc7 $bottom,
+	/ITL/scene/sc8 $top
+);
+
+/ITL/scene/cursor watch timeEnter $sc8start $sc8end (
+	/ITL/scene/sc* show 0,
+	/ITL/scene/sc8 show 1,
+	/ITL/scene/sc9 show 1,
+	/ITL/scene/sc8 $top,
+	/ITL/scene/sc9 $bottom
+);
+
+/ITL/scene/cursor watch timeEnter $sc9start $sc9end (
+	/ITL/scene/sc* show 0,
+	/ITL/scene/sc9 show 1,
+	/ITL/scene/sc10 show 1,
+	/ITL/scene/sc9 $bottom,
+	/ITL/scene/sc10 $top
+);
+
+
+/ITL/scene/cursor watch timeEnter $sc10start $sc10end (
+	/ITL/scene/sc* show 0,
+	/ITL/scene/sc10 show 1,
+	/ITL/scene/sc11 show 1,
+	/ITL/scene/sc10 $top,
+	/ITL/scene/sc11 $bottom
+);
+
+
+
+<!-- ## last system -->
+/ITL/scene/cursor watch timeEnter $sc100start $sc100end (
+	/ITL/scene/sc99 show 0,
+	/ITL/scene/end show 0
+);
+
+/ITL/scene/cursor watch timeLeave $sc100start $sc100end (
+	/ITL/scene/sc* show 0,
+	/ITL/scene/cursor tempo 0,
+	/ITL/scene/end show 1
+);
+
+/ITL/scene/cursor watch timeLeave $sc100end 100000000 (
+	/ITL/scene/end show 0
+);
+
+
+/ITL/scene/sc* watch mouseDown (/ITL/scene/cursor date "$date", /ITL/scene/audio vdate '$date');
+
+<!-- user interface settings -->
+/ITL/scene/title set txt "state of guts";
+/ITL/scene/title fontSize 42;
+/ITL/scene/title y -0.55;
+/ITL/scene/title color white;
+
+/ITL/scene/cursor tempo 0;
+/ITL/scene/cursor date 0;
+
+/ITL/scene/timeline set rect 2.0 0.06;
+/ITL/scene/timeline color 30 30 30;
+/ITL/scene/timeline y 0.73;
+/ITL/scene/timeline duration 772 1;
+
+/ITL/scene/timeline watch mouseDown ( /ITL/scene/cursor date '$date', /ITL/scene/audio vdate '$date');
+/ITL/scene/timeline watch mouseMove ( /ITL/scene/cursor date '$date', /ITL/scene/audio vdate '$date');
+
+/ITL/scene/sync cursor timeline v;
+
+/ITL/scene/tm0 set txt "0'";
+/ITL/scene/tm2 set txt "2'";
+/ITL/scene/tm4 set txt "4'";
+/ITL/scene/tm6 set txt "6'";
+/ITL/scene/tm8 set txt "8'";
+/ITL/scene/tm10 set txt "10'";
+/ITL/scene/tm12 set txt "12'";
+/ITL/scene/tm0 date 0;
+/ITL/scene/tm2 date 120;
+/ITL/scene/tm4 date 240;
+/ITL/scene/tm6 date 360;
+/ITL/scene/tm8 date 480;
+/ITL/scene/tm10 date 600;
+/ITL/scene/tm12 date 720;
+/ITL/scene/tm* color white;
+/ITL/scene/tm* scale 0.03;
+/ITL/scene/sync tm* timeline syncBottom;
+/ITL/scene/tm* dy 0.3;
+
+/ITL/scene/ctrlplay set img "imgs/play.png";
+/ITL/scene/ctrlstop set img "imgs/stop.png";
+/ITL/scene/ctrlplay xorigin 1.2;
+/ITL/scene/ctrlstop xorigin -1.2;
+/ITL/scene/ctrl* width 0.080;
+/ITL/scene/ctrl* y 0.88;
+alpha = 150; 
+/ITL/scene/ctrl* alpha $alpha;
+/ITL/scene/ctrl* watch mouseEnter ( /ITL/scene/$self alpha 255); 
+/ITL/scene/ctrl* watch mouseLeave ( /ITL/scene/$self alpha $alpha); 
+	
+/ITL/scene/clefa set img "imgs/clef.png";
+/ITL/scene/clefa x -5.3;
+/ITL/scene/clefa y -1;
+
+/ITL/scene/clefb set img "imgs/clef.png";
+/ITL/scene/clefb x -5.3;
+/ITL/scene/clefb y 1;
+	
+/ITL/scene/clef* z 1;
+	
+/ITL/scene/clef* width 0.080;
+
+/ITL/scene/ctrlplay watch mouseDown (
+	/ITL/scene/ctrlplay push,
+	/ITL/scene/audio play 1,
+	/ITL/scene/cursor tempo 60,
+	/ITL/scene/ctrlplay set img "imgs/pause.png", 
+	/ITL/scene/ctrlplay watch mouseDown (
+		/ITL/scene/cursor tempo 0,
+		/ITL/scene/ctrlplay set img "imgs/play.png",
+		/ITL/scene/ctrlplay pop
+	)
+);
+
+/ITL/scene/ctrlstop watch mouseDown (
+	/ITL/scene/cursor tempo 0,
+	/ITL/scene/cursor date 0,
+	/ITL/scene/ctrlplay set img "imgs/play.png",
+	/ITL/scene/ctrlplay pop
+);
+
+
+</div>
+</body>
+</html>
+
+
